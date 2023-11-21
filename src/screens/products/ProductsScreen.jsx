@@ -1,5 +1,5 @@
 import React, { useContext, useState } from "react";
-import { Image, ScrollView, Text, TouchableOpacity, View } from "react-native";
+import { Image, ToastAndroid, Text, TouchableOpacity, View } from "react-native";
 import { globalStyles } from "../../themes/globalThemes";
 import { MaterialIcons } from "react-native-vector-icons";
 import { Pressable } from "react-native";
@@ -27,8 +27,16 @@ export const ProductsScreen = ({ route }) => {
         product: itemData,
         qty: quantity
       }
-
-      addCart(data);
+      if(!quantity){
+        ToastAndroid.show('La cantidad no puede ser 0', ToastAndroid.SHORT);
+        return;
+      }
+      const existElement = state.cart.find((item) => item.id == itemData._id);
+      if(!existElement){
+        addCart(data);
+      }else{
+        ToastAndroid.show('Ya agregaste este item al carrito', ToastAndroid.SHORT);
+      }
   }
 
 
