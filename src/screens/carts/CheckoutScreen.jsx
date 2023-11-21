@@ -10,12 +10,13 @@ import { useQuantity } from '../../hooks/useQuantity'
 import { useEffect } from 'react'
 import { AuthContext } from '../../contexts/AuthContext'
 import { useNavigation } from '@react-navigation/native'
+import { EmptyCartScreen } from './EmptyCartScreen'
 
 export const CheckoutScreen = ({ navigation }) => {
 
     const { updateCartItem, removeCart, sendCart, removeAllCart, state } = useContext(CartContext);
     const userData = useContext(AuthContext).state;
-    const { navigate } =  useNavigation();
+    const { navigate } = useNavigation();
 
     const removeItem = (index) => {
         state.cart.splice(index, 1);
@@ -37,7 +38,7 @@ export const CheckoutScreen = ({ navigation }) => {
     }
 
     const postCart = () => {
-        const cart = {pedido: state.cart, email: userData.user.email, estado: "-", total}
+        const cart = { pedido: state.cart, email: userData.user.email, estado: "-", total }
         sendCart(cart)
         removeAllCart();
         navigate('HomeScreen');
@@ -116,7 +117,8 @@ export const CheckoutScreen = ({ navigation }) => {
     }
 
     return (
-        <View style={globalStyles.container}>
+
+        state.cart.length !== 0 ? <View style={globalStyles.container}>
             <View style={{ flex: 1 }}>
                 <FlatList
                     data={state.cart}
@@ -129,14 +131,15 @@ export const CheckoutScreen = ({ navigation }) => {
                 </View>
                 <View>
                     <TouchableOpacity
-                        style={{backgroundColor:'#ff6347', 
-                        fontSize: 16, 
-                        alignSelf: 'center', 
-                        borderRadius: 20, 
-                        paddingHorizontal: 30, 
-                        paddingVertical: 10,
-                        marginTop: 25
-                    }}
+                        style={{
+                            backgroundColor: '#ff6347',
+                            fontSize: 16,
+                            alignSelf: 'center',
+                            borderRadius: 20,
+                            paddingHorizontal: 30,
+                            paddingVertical: 10,
+                            marginTop: 25
+                        }}
                         onPress={postCart}
                     >
                         <Text style={globalStyles.defaulTextBtn}> Finalizar Compra </Text>
@@ -144,6 +147,8 @@ export const CheckoutScreen = ({ navigation }) => {
                 </View>
             </View>
 
-        </View>
+        </View> : <EmptyCartScreen />
+
+
     )
 }
