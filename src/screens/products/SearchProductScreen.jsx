@@ -15,6 +15,12 @@ export const SearchProductScreen = ({route}) => {
   const filteredProducts = route.params ? route.params.filteredProducts : undefined;
   const searchData = filteredProducts ? filteredProducts : state.products
 
+  const [searchText, setSearchText] = useState('');
+
+  const filteredData = searchData?.filter((item) =>
+    item.productName.toLowerCase().includes(searchText.toLowerCase())
+  );
+
   // useEffect( () => {
   //   const arrData = searchData.filter((data) => data._id <=2);
   //   setProductList(arrData);
@@ -49,9 +55,9 @@ export const SearchProductScreen = ({route}) => {
 
   return (
     <View style={ globalStyles.container }>
-        <CustomTextSearch />
+        <CustomTextSearch onSearchTextChange={setSearchText}/>
         <FlatList 
-          data={searchData}
+          data={filteredData}
           renderItem={ ({item}) => <CustomItemSearch item={item}/> }
           keyExtractor={item => item._id}
           // onEndReached={loadMore}

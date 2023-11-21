@@ -2,7 +2,7 @@ import React from 'react';
 import { StyleSheet, TextInput, View } from 'react-native';
 import { FontAwesome5 } from '@expo/vector-icons'; 
 
-export const CustomTextSearch = () => {
+export const CustomTextSearch = ({onSearchTextChange}) => {
      return (
         <View style={ styles.containerSearch }>
             <FontAwesome5 
@@ -15,6 +15,7 @@ export const CustomTextSearch = () => {
                 style={ styles.inputSearch }
                 placeholder='Buscar Productos'
                 placeholderTextColor='#6c6c6c'
+                onChangeText={onSearchTextChange}
             />
         </View>
     )
