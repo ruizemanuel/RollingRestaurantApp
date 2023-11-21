@@ -1,6 +1,6 @@
 import React, { useReducer } from 'react';
 import { ProductContext } from '../contexts/ProductContext';
-import { restaurnatApiUrl } from '../config/restaurantApi';
+import { restaurantApiUrl } from '../config/restaurantApi';
 import { types } from '../types/types';
 import { ProductReducer } from '../reducers/ProductReducer';
 
@@ -18,7 +18,7 @@ export const ProductProvider = ({ children }) => {
     const getProducts = async() => {
 
         try {
-            const products = await restaurnatApiUrl.get('/products');
+            const products = await restaurantApiUrl.get('/products');
 
             if(!products){
                 dispatch({

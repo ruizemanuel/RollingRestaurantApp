@@ -93,11 +93,6 @@ export const HomeScreen = ({ navigation }) => {
           horizontal={true}
         />
       </View>
-
-      <CustomModalBottom
-        status={openModal}
-        onPress={onFilter}
-      />
     </View>
   )
 }

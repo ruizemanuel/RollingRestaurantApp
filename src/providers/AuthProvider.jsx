@@ -1,11 +1,11 @@
 import { useReducer } from "react"
 import { AuthContext } from "../contexts/AuthContext"
 import { AuthReducer } from "../reducers/AuthReducer"
-import { restaurnatApiUrl } from "../config/restaurantApi"
+import { restaurantApiUrl } from "../config/restaurantApi"
 import AsyncStorage from "@react-native-async-storage/async-storage"
 import { types } from "../types/types"
 
-const initialState  = {
+const initialState = {
     user: null,
     isLogged: false,
     isLoading: true,
@@ -13,30 +13,30 @@ const initialState  = {
 }
 
 
-export const AuthProvider  = ({ children }) => {
+export const AuthProvider = ({ children }) => {
 
-    const [state, dispatch] = useReducer(AuthReducer,  initialState);
+    const [state, dispatch] = useReducer(AuthReducer, initialState);
 
-    const login = async(email, password) =>  {
+    const login = async (email, password) => {
         try {
-            
-            const user = await restaurnatApiUrl.post('/auth/login', {
+
+            const user = await restaurantApiUrl.post('/auth/login', {
                 email,
                 password
             });
             await AsyncStorage.setItem('x-access-token', user.data.token);
-    
+
             dispatch({
                 type: types.auth.login,
                 payload: {
                     user: user.data
                 }
             });
-            
+
         } catch (error) {
             dispatch({
                 type: types.auth.error,
-                payload:  {
+                payload: {
                     errorMessage: error.response.data.msg
                 }
             })
@@ -44,29 +44,36 @@ export const AuthProvider  = ({ children }) => {
     }
 
 
-    const checkToken = async() => {
+    const checkToken = async () => {
         try {
             const token = await AsyncStorage.getItem('e-token');
-            if(!token){
+            if (!token) {
                 dispatch({
                     type: types.auth.logout
                 });
             }
-            
-            const { data } = await restaurnatApiUrl.get('/auth/user/review/token');
-            
+
+            const { data } = await restaurantApiUrl.get('/auth/user/review/token');
+
             dispatch({
                 type: types.auth.login,
                 payload: {
                     user: data.res
                 }
             });
-            
+
         } catch (error) {
             return dispatch({
-                type:types.auth.error,
+                type: types.auth.error,
             })
         }
+    }
+
+    const logout = async () => {
+
+        dispatch({
+            type: types.auth.logout
+        });
     }
 
     return (
@@ -74,10 +81,11 @@ export const AuthProvider  = ({ children }) => {
             state,
             login,
             checkToken,
+            logout,
         }}
 
         >
-            { children  }
+            {children}
         </AuthContext.Provider>
     )
 }

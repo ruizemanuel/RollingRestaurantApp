@@ -6,12 +6,21 @@ import { TabsNavigator } from './TabsNavigator';
 import { LoginScreen } from '../screens/auths/LoginScreen';
 import { AuthContext } from '../contexts/AuthContext';
 import { CustomLoading } from '../components/CustomLoading';
+import { CartContext } from '../contexts/CartContext';
+import { ToastAndroid } from 'react-native';
 
 const Drawer = createDrawerNavigator();
 
 export const DrawerNavigator = () => {
 
   const { state, checkToken } = useContext(AuthContext);
+  const message = useContext(CartContext).state;
+
+  useEffect(() => {
+    if (state.isLogged && message.msg){
+      ToastAndroid.show(message.msg, ToastAndroid.SHORT);
+    }
+  },[message.msg])
 
   // useEffect( () => {
   //   checkToken();

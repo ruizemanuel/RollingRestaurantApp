@@ -11,7 +11,7 @@ export const ProductsScreen = ({ route }) => {
 
   const { itemData } = route.params;
   const [talle, setTalle] = useState(0);
-  const { quantity, restQuantity, sumQuantity } = useQuantity();
+  const  { quantity, sumQuantity, restQuantity} = useQuantity();
   const { addCart, state } = useContext(CartContext);
 
 
@@ -25,7 +25,6 @@ export const ProductsScreen = ({ route }) => {
   const addToCart = () => {
       const data = {
         product: itemData,
-        waist: talle,
         qty: quantity
       }
 
@@ -60,56 +59,15 @@ export const ProductsScreen = ({ route }) => {
           alignItems: 'center'
         }}
       >
-        <Text style={{ fontSize: 16, color: "rgba(255,255,255, 0.5)" }}>
+        <Text style={{ fontSize: 16, color: "#888" }}>
           {itemData.category}
         </Text>
-        <Text style={{ fontSize: 19, color: "#fff", fontWeight: "bold" }}>
+        <Text style={{ fontSize: 19, color: "#000", fontWeight: "bold" }}>
           {itemData.productName}{" "}
         </Text>
         <Text style={{ fontSize: 22, color: "#ff6347", fontWeight: "bold" }}>
           ${itemData.price}
         </Text>
-      </View>
-
-      <View
-        style={{
-          flex: 1,
-          flexDirection: "row",
-          justifyContent: "center",
-          alignItems: "center",
-        }}
-      >
-        {[36, 37, 38, 39, 40].map((item) => (
-          <Pressable
-            key={item}
-            onPress={() => obtenerTalle(item)}
-            style={{
-              marginHorizontal: 5,
-              backgroundColor:
-                item == talle
-                  ? "rgba(242, 5, 139, 0.4)"
-                  : "rgba(255,255,255,0)",
-              padding: 12,
-              borderWidth: 1,
-              borderColor:
-                item == talle 
-                  ? "rgba(255,255,255,1)" 
-                  : "rgba(255,255,255,0.4)",
-              borderRadius: 5,
-            }}
-          >
-            <Text
-              style={{
-                color:
-                  item == talle
-                    ? "rgba(255,255,255,1)"
-                    : "rgba(255,255,255,0.5)",
-              }}
-            >
-              {item}
-            </Text>
-          </Pressable>
-        ))}
       </View>
 
       <View
@@ -122,7 +80,7 @@ export const ProductsScreen = ({ route }) => {
           <Text
             style={{
               fontSize: 15,
-              color: "rgba(255,255,255, 0.5)",
+              color: "#888",
               marginBottom: 5,
             }}
           >
@@ -130,10 +88,10 @@ export const ProductsScreen = ({ route }) => {
           </Text>
         </View>
 
-        <CustomQuantity 
-          quantity={quantity}
-          restQuantity={restQuantity}
-          sumQuantity={sumQuantity}
+        <CustomQuantity
+        quantity={quantity}
+        sumQuantity={sumQuantity}
+        restQuantity={restQuantity}
         />
       </View>
 
@@ -164,28 +122,9 @@ export const ProductsScreen = ({ route }) => {
             }}
             onPress={addToCart}
           >
-            <Text style={globalStyles.defaulTextBtn}>ADD TO CART</Text>
+            <Text style={globalStyles.defaulTextBtn}>AGREGAR AL CARRITO</Text>
           </TouchableOpacity>
         </View>
-      </View>
-
-      <View
-        style={{
-          flexDirection: "row",
-          justifyContent: "center",
-          alignItems: "center",
-        }}
-      >
-        <Text
-          style={{
-            fontSize: 30,
-            fontWeight: "bold",
-            color: "rgba(255,255,255,0.5)",
-          }}
-        >
-          4.8
-        </Text>
-        <MaterialIcons name="star" color="yellow" size={30} />
       </View>
     </View>
   );

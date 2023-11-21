@@ -5,8 +5,7 @@ import { Pressable } from 'react-native';
 import { AntDesign } from "react-native-vector-icons";
 import { useQuantity } from '../hooks/useQuantity';
 
-export const CustomQuantity = ({ quantity,  restQuantity, sumQuantity }) => {
-
+export const CustomQuantity = ( { quantity, sumQuantity, restQuantity }) => {
 
   return (
 
@@ -21,7 +20,7 @@ export const CustomQuantity = ({ quantity,  restQuantity, sumQuantity }) => {
             style={{ alignItems: "center" }}
             onPress={ restQuantity }
         >
-            <AntDesign name="minussquare" size={25} color="rgba(255, 255, 255, 0.5)" />
+            <AntDesign name="minussquare" size={25} color="#ff6347" />
         </Pressable>
 
         <View
@@ -32,7 +31,7 @@ export const CustomQuantity = ({ quantity,  restQuantity, sumQuantity }) => {
         >
             <Text
                 style={{
-                color: "#fff",
+                color: "#000",
                 fontSize: 19,
                 fontWeight: "bold",
                 // marginHorizontal: 12,
@@ -46,7 +45,7 @@ export const CustomQuantity = ({ quantity,  restQuantity, sumQuantity }) => {
             style={{alignItems: "center"}}
             onPress={ sumQuantity }
         >
-            <AntDesign name="plussquare" size={25} color="rgba(255, 255, 255, 0.5)" />
+            <AntDesign name="plussquare" size={25} color="#ff6347" />
         </Pressable>
     </View>
     

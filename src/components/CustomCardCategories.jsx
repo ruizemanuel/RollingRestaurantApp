@@ -1,12 +1,15 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { Image, Pressable, Text, View } from 'react-native';
 import { AntDesign } from 'react-native-vector-icons';
 import { useNavigation } from '@react-navigation/native';
+import { ProductContext } from '../contexts/ProductContext';
 
 export const CustomCardCategories = ({itemData}) => {
     const { navigate } =  useNavigation();
     //const photo = `../../assets/photo/products/${itemData.photo}`;
     const [favorite, setFavorite] = useState(0);
+    const { state } = useContext(ProductContext);
+    const filteredProducts = state.products?.filter((product) => product.category == itemData.categoryName.toLowerCase());
 
     const onPresFavorite = (id) => {
       setFavorite(id);
@@ -21,8 +24,8 @@ export const CustomCardCategories = ({itemData}) => {
           // borderWidth:2,
           borderRadius: 15
         }}
-        onPress={() => navigate('ProductsScreen', {
-          itemData,
+        onPress={() => navigate('SearchProductScreen', {
+          filteredProducts,
         })}
       >
 

@@ -14,6 +14,9 @@ export const types = {
     cart: {
         addCart: 'ADDCART',
         removeCart: 'REMOVECART',
-        msgCart: 'MSGCART'
+        removeAllCart: 'REMOVEALLCART',
+        msgCart: 'MSGCART',
+        updateCart: 'UPDATECART',
+        error:  'ERROR'
     }
 }

@@ -1,5 +1,5 @@
-import React, { useContext, useEffect, useState } from 'react'
-import { Image, Pressable, Text } from 'react-native'
+import React, { useContext, useState } from 'react'
+import { Image, Pressable, Text, TouchableOpacity, ToastAndroid } from 'react-native'
 import { FlatList } from 'react-native'
 import { View } from 'react-native'
 import { CartContext } from '../../contexts/CartContext'
@@ -7,105 +7,143 @@ import { globalStyles } from '../../themes/globalThemes'
 import { AntDesign } from 'react-native-vector-icons';
 import { CustomQuantity } from '../../components/CustomQuantity'
 import { useQuantity } from '../../hooks/useQuantity'
+import { useEffect } from 'react'
+import { AuthContext } from '../../contexts/AuthContext'
+import { useNavigation } from '@react-navigation/native'
 
 export const CheckoutScreen = ({ navigation }) => {
 
-    const { state } = useContext(CartContext);
-    const { quantity, sumQuantity, restQuantity} = useQuantity();
-    const [cantidad, setCantidad] = useState(10)
+    const { updateCartItem, removeCart, sendCart, removeAllCart, state } = useContext(CartContext);
+    const userData = useContext(AuthContext).state;
+    const { navigate } =  useNavigation();
 
+    const removeItem = (index) => {
+        state.cart.splice(index, 1);
+        removeCart(state.cart);
+    }
+    const [quantities, setQuantities] = useState(state.cart.map((item) => ({ id: item.id, quantity: item.qty })));
+    const [total, setTotal] = useState(0)
 
+    useEffect(() => {
+        setQuantities(state.cart.map((item) => ({ id: item.id, quantity: item.qty })));
+        totalCart();
+    }, [state.cart])
 
-    const cartRender = (item) => {
+    const totalCart = () => {
+        const totalCartItems = state.cart.reduce((acc, item) => {
+            return acc + item.qty * item.price;
+        }, 0);
+        setTotal(totalCartItems)
+    }
+
+    const postCart = () => {
+        const cart = {pedido: state.cart, email: userData.user.email, estado: "-", total}
+        sendCart(cart)
+        removeAllCart();
+        navigate('HomeScreen');
+    }
+
+    const handleUpdateQuantity = (itemId, newQuantity) => {
+        setQuantities((prevQuantities) =>
+            prevQuantities.map((item) =>
+                item.id === itemId ? { ...item, quantity: newQuantity } : item
+            )
+        );
+        updateCartItem(itemId, newQuantity);
+    };
+
+    const cartRender = (item, index) => {
+        const quantity = quantities.find((q) => q.id === item.id)?.quantity || 0;
+
         return (
             <View style={{
                 backgroundColor: '#ccc',
-                flexDirection:  'row',
-                borderWidth: 3,
+                flexDirection: 'row',
+                borderWidth: 2,
+                borderColor: '#e8e8e8',
                 justifyContent: 'center',
-                alignItems:  'center',
-                backgroundColor: 'rgba(255, 255, 255, 0.1)',
+                alignItems: 'center',
+                backgroundColor: '#fff',
                 borderTopEndRadius: 10,
                 borderBottomEndRadius: 10,
-                padding:10
+                padding: 10
             }}>
                 <View style={{
                     flex: 1,
                     marginRight: 10
                 }}>
-                    <Image 
-                        source={require('../../assets/photo/products/zapa_1.webp')}
+                    <Image
+                        source={{ uri: item.urlImg }}
                         style={{
-                            width:50,
+                            width: 50,
                             height: 50,
                             borderRadius: 5
-                        }} 
+                        }}
                     />
                 </View>
-                <View 
-                    style={{ 
-                        flex:3, 
+                <View
+                    style={{
+                        flex: 3,
                         alignItems: 'flex-start',
                         justifyContent: 'center'
                     }}>
                     <View>
-                        <Text style={{ fontSize: 12, color: 'rgba(255,255,255, 0.5)',  }}>{item.category}</Text>
-                        <Text style={{ fontSize: 13, color: '#fff' }}>{ item.product}</Text>
-                        <Text style={{ fontSize: 14, color: '#ff6347', fontWeight: 'bold'}}>${item.price}</Text>
+                        <Text style={{ fontSize: 12, color: '#888', }}>{item.category}</Text>
+                        <Text style={{ fontSize: 13, color: '#000' }}>{item.productName}</Text>
+                        <Text style={{ fontSize: 14, color: '#ff6347', fontWeight: 'bold' }}>${item.price}</Text>
                     </View>
                 </View>
-                <View style={{ flex:2, alignItems: 'center'}}>
-                    <CustomQuantity 
+                <View style={{ flex: 2, alignItems: 'center' }}>
+                    <CustomQuantity
                         quantity={quantity}
-                        sumQuantity={sumQuantity}
-                        restQuantity={restQuantity}
+                        sumQuantity={() =>
+                            handleUpdateQuantity(item.id, quantity + 1)
+                        }
+                        restQuantity={() =>
+                            handleUpdateQuantity(item.id, Math.max(quantity - 1, 0))
+                        }
                     />
                 </View>
-
+                <View style={{ flex: 1, alignItems: 'center' }}>
+                    <Pressable
+                        onPress={() => removeItem(index)}
+                    >
+                        <AntDesign name='delete' size={26} color={'#ff6347'} />
+                    </Pressable>
+                </View>
             </View>
         )
     }
 
-  return (
-    <View style={ globalStyles.container }>
-        <FlatList 
-          data={state.cart}
-          renderItem={ ({item}) => cartRender(item) }
-          keyExtractor={item => item.id}
-        />
-        {/* <View style={{
-                backgroundColor: '#ccc',
-                flexDirection:  'row',
-                borderWidth: 3,
-                justifyContent: 'center',
-                alignItems:  'center',
-                backgroundColor: 'rgba(255, 255, 255, 0.1)',
-                borderTopEndRadius: 10,
-                borderBottomEndRadius: 10,
-                padding:10
-        }}>
-                <View style={{ flex:3, marginLeft: 10, alignItems: 'flex-start' }}>
-                    <View style={{  marginBottom:10}}>
-                        <Text style={{ fontSize: 16, fontSize: 12, color: 'rgba(255,255,255, 0.5)',  }}>Category</Text>
-                        <Text style={{ fontSize: 16, fontSize: 16, color: '#fff', fontWeight: 'bold' }}>Nombre</Text>
-                        <Text style={{ fontSize: 16, fontSize: 14, color: '#ff6347', fontWeight: 'bold'}}>$23</Text>
-                    </View>
-
-                    <CustomQuantity 
-                        quantity={quantity}
-                        sumQuantity={sumQuantity}
-                        restQuantity={restQuantity}
-                    />
+    return (
+        <View style={globalStyles.container}>
+            <View style={{ flex: 1 }}>
+                <FlatList
+                    data={state.cart}
+                    renderItem={({ item, index }) => cartRender(item, index)}
+                    keyExtractor={item => item.id}
+                />
+                <View style={{ flexDirection: 'row', justifyContent: 'space-between', paddingHorizontal: 10 }}>
+                    <Text style={{ fontSize: 18, color: '#888', }}>Total</Text>
+                    <Text style={{ fontSize: 18, color: '#000', fontWeight: 'bold' }}>${total}</Text>
                 </View>
-                <View style={{ flex:1, alignItems: 'center'}}>
-                    <Pressable 
-                        onPress={() => console.log('ELIMINAR')}
+                <View>
+                    <TouchableOpacity
+                        style={{backgroundColor:'#ff6347', 
+                        fontSize: 16, 
+                        alignSelf: 'center', 
+                        borderRadius: 20, 
+                        paddingHorizontal: 30, 
+                        paddingVertical: 10,
+                        marginTop: 25
+                    }}
+                        onPress={postCart}
                     >
-                        <AntDesign name='delete'  size={26} color={'white'}/>
-                    </Pressable>
+                        <Text style={globalStyles.defaulTextBtn}> Finalizar Compra </Text>
+                    </TouchableOpacity>
                 </View>
+            </View>
 
-        </View> */}
-    </View>
-  )
+        </View>
+    )
 }

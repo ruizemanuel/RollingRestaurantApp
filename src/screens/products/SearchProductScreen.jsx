@@ -8,11 +8,12 @@ import { ProductContext } from '../../contexts/ProductContext';
 
 
 
-export const SearchProductScreen = () => {
+export const SearchProductScreen = ({route}) => {
 
   const [productList, setProductList] = useState();
   const { state } = useContext(ProductContext);
-  const searchData = state.products
+  const filteredProducts = route.params ? route.params.filteredProducts : undefined;
+  const searchData = filteredProducts ? filteredProducts : state.products
 
   // useEffect( () => {
   //   const arrData = searchData.filter((data) => data._id <=2);
