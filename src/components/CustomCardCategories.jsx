@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import { Image, Pressable, Text, View } from 'react-native';
+import { Image, Pressable, Text, View, ToastAndroid } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { ProductContext } from '../contexts/ProductContext';
 
@@ -9,13 +9,17 @@ export const CustomCardCategories = ({itemData}) => {
     const filteredProducts = state.products?.filter((product) => product.category == itemData.categoryName.toLowerCase());
 
     const onPressCategory = () => {
-      navigate('SearchProductScreen', {
-        filteredProducts,
-      })
+      if(filteredProducts.length !== 0){
+        navigate('SearchProductScreen', {
+          filteredProducts,
+        })
+      } else{
+        ToastAndroid.show(`No hay productos en ${itemData.categoryName}`, ToastAndroid.SHORT);
+      }
     }
 
     return (
-      filteredProducts.length !== 0 && <Pressable
+      <Pressable
         style={{
           marginHorizontal:5,
           backgroundColor: '#fff',
