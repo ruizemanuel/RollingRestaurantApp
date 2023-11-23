@@ -25,11 +25,14 @@ export const AuthProvider = ({ children }) => {
                 password
             });
             await AsyncStorage.setItem('x-access-token', user.data.token);
+            await AsyncStorage.setItem('email', user.data.email);
+            const favorites = await AsyncStorage.getItem('userFavorites');
+            const datos = {...user.data, favorites}
 
             dispatch({
                 type: types.auth.login,
                 payload: {
-                    user: user.data
+                    user: datos
                 }
             });
 
