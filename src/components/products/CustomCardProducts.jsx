@@ -25,7 +25,6 @@ export const CustomCardProducts = ({ itemData }) => {
 
   const [favorite, setFavorite] = useState(checkFavoriteStatus());
 
-
   const onPressFavorite = async (id, item) => {
     const email = await AsyncStorage.getItem('email');
     let userFavorites = await AsyncStorage.getItem('userFavorites');
