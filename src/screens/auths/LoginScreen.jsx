@@ -1,5 +1,5 @@
 import React, { useContext, useState } from 'react'
-import { Image, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
+import { ActivityIndicator, Image, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import { globalStyles } from '../../themes/globalThemes';
@@ -21,18 +21,18 @@ export const LoginScreen = () => {
         validateOnChange: false,
         validationSchema: Yup.object({
             email: Yup.string()
-                    .email('El formato del email  es incorrecto')
-                    .required('El campo email  es  requerido'),
+                .email('El formato del email  es incorrecto')
+                .required('El campo email  es  requerido'),
             password: Yup.string()
-                    .required('El campo password es requerido')
-                    .min(8, 'password requiere minimo 8 caracteres')
+                .required('El campo password es requerido')
+                .min(8, 'password requiere minimo 8 caracteres')
         }),
         onSubmit: (values) => {
             login(
                 formik.values.email,
                 formik.values.password,
             )
-            
+
         }
     })
 
@@ -44,53 +44,58 @@ export const LoginScreen = () => {
     //     )
     // }
 
-  return (
-    <>
-        <View style={styles.container}>
-            <View style={{marginBottom: 30}}>
-                <Image 
-                    style={ styles.logo }
-                    source={require('../../assets/LogoRolling.png')}
-                />
-            </View>
-            <View>
-                <TextInput 
-                    style={globalStyles.defaultInputText}
-                    placeholder='Email'
-                    placeholderTextColor={'#fff'}
-                    inputMode='email'
-                    name='email'
-                    onChangeText={(value) => formik.setFieldValue('email', value)}
-                />
-                { formik.errors.email &&  (
-                <Text style={{
-                    color: '#fff',
-                    textAlign: 'center',
-                    fontSize: 17
-                }}>
-                    { formik.errors.email }
-                </Text>
-                )}
+    return (
+        <>
+            <View style={styles.container}>
+                <View style={{ marginBottom: 30 }}>
+                    <Image
+                        style={styles.logo}
+                        source={require('../../assets/LogoRolling.png')}
+                    />
+                </View>
+                <View>
+                    <TextInput
+                        style={globalStyles.defaultInputText}
+                        placeholder='Email'
+                        placeholderTextColor={'#fff'}
+                        inputMode='email'
+                        name='email'
+                        onChangeText={(value) => formik.setFieldValue('email', value)}
+                    />
+                    {formik.errors.email && (
+                        <Text style={{
+                            color: '#fff',
+                            textAlign: 'center',
+                            fontSize: 17
+                        }}>
+                            {formik.errors.email}
+                        </Text>
+                    )}
 
-                <CustomPassInput  name={'password'} formik={formik}/>
+                    <CustomPassInput name={'password'} formik={formik} />
+                </View>
+                {
+                    !state.isLoading ?
+                        <View>
+                            <TouchableOpacity
+                                style={styles.defaultBtn}
+                                onPress={formik.handleSubmit}
+                            >
+                                <Text style={globalStyles.defaulTextBtn}> INGRESAR </Text>
+                            </TouchableOpacity>
+                        </View> :
+                        <ActivityIndicator size="large" color='#fff' />
+                }
+
             </View>
-            <View>
-                <TouchableOpacity
-                    style= {styles.defaultBtn}
-                    onPress={formik.handleSubmit}
-                >
-                    <Text style={globalStyles.defaulTextBtn}> INGRESAR </Text>
-                </TouchableOpacity>
-            </View>
-        </View>
-   
-        {/* <CustomModal 
+
+            {/* <CustomModal 
             status={modal}
             title='Error de Acceso'
             msg={state.errorMessage}
         /> */}
-    </>
-  )
+        </>
+    )
 }
 
 const styles = StyleSheet.create({
@@ -110,7 +115,7 @@ const styles = StyleSheet.create({
     },
 
     defaultBtn: {
-        backgroundColor:'#ff6347',
+        backgroundColor: '#ff6347',
         fontSize: 16,
         borderWidth: 2,
         borderColor: '#fff',

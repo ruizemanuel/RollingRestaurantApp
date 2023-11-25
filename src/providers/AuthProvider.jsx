@@ -20,6 +20,10 @@ export const AuthProvider = ({ children }) => {
     const login = async (email, password) => {
         try {
 
+            dispatch({
+                type: types.auth.loading,
+            });
+
             const user = await restaurantApiUrl.post('/auth/login', {
                 email,
                 password

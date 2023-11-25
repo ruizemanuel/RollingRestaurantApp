@@ -40,6 +40,12 @@ export const AuthReducer = (state = {}, action) => {
                 },
             };
 
+        case types.auth.loading:
+            return {
+                ...state,
+                isLoading: true,
+            };
+
         default:
             return state;
     }

@@ -26,27 +26,10 @@ export const DrawerNavigator = () => {
   //   checkToken();
   // },[])
 
-  // if(state.isLoading){
-  //   return (<CustomLoading />)
-  // }
-
-  // if(true)  {
-  //       return (
-
-  //           <Drawer.Navigator>
-  //               <Drawer.Screen name='Home' options={{ title: 'HOME', headerShown:false}} component={TabsNavigator} />
-  //               <Drawer.Screen name='Mis Pedidos' component={ProfileScreen} />
-  //           </Drawer.Navigator>
-  //     )
-  // }
-
   if (!state.isLogged) {
     return (
-
-
       <Drawer.Navigator>
-        <Drawer.Screen name='Home' options={{ title: 'LOGIN', headerShown: false }} component={LoginScreen} />
-        {/* <Drawer.Screen name='Mis Pedidos' component={ProfileScreen} /> */}
+        <Drawer.Screen name='Login' options={{ title: 'LOGIN', headerShown: false }} component={LoginScreen} />
       </Drawer.Navigator>
     )
   } else {
