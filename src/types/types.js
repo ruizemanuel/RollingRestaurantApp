@@ -2,7 +2,8 @@ export const types = {
     auth: {
         login:  'LOGIN',
         logout: 'LOGOUT',
-        error:  'ERROR'
+        error:  'ERROR',
+        updateFavorites: 'UPDATE'
     },
 
     products: {

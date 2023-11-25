@@ -3,27 +3,36 @@ import { Image, Pressable, Text, View, ToastAndroid } from 'react-native';
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { AntDesign } from 'react-native-vector-icons';
 import { useNavigation } from '@react-navigation/native';
-import { useEffect } from 'react';
 import { AuthContext } from '../../contexts/AuthContext';
 import { useContext } from 'react';
+import { useEffect } from 'react';
 
 export const CustomCardProducts = ({ itemData }) => {
 
   const { navigate } = useNavigation();
-  const { state } = useContext(AuthContext);
+  const { state, updateFavs } = useContext(AuthContext);
 
   const checkFavoriteStatus = () => {
-    const favoritos = JSON.parse(state.user.favorites);
-    const {favorites} = favoritos.find((item) => item.email === state.user.email);
-    if (favorites) {
-      const isFavorite = favorites.some((fav) => fav.id === itemData._id);
-      return isFavorite ? itemData._id : 0;
-    }
-    return 0;
-    
+    if(state.user.favorites?.length !== 0){
+      const favoritos = typeof state.user.favorites === 'string' ? JSON.parse(state.user.favorites) : state.user.favorites;
+      const {favorites} = favoritos?.find((item) => item.email === state.user.email);
+      if (favorites) {
+        const isFavorite = favorites.some((fav) => fav._id === itemData._id);
+        return isFavorite ? itemData._id : 0;
+      }
+      return 0;
+    } else{
+      return 0;
+    } 
   };
 
   const [favorite, setFavorite] = useState(checkFavoriteStatus());
+
+  useEffect(() => {
+    if(state.user.favorites?.length !== 0){
+      setFavorite(checkFavoriteStatus());
+    } 
+   },[state.user.favorites])
 
   const onPressFavorite = async (id, item) => {
     const email = await AsyncStorage.getItem('email');
@@ -41,15 +50,15 @@ export const CustomCardProducts = ({ itemData }) => {
     if (userIndex === -1) {
       userFavorites.push({
         email,
-        favorites: [{ id, item }],
+        favorites: [ item ],
       });
       ToastAndroid.show("Se agregó el producto a tus favoritos", ToastAndroid.SHORT);
     } else {
       const userFavoritesArray = userFavorites[userIndex].favorites;
-      favoriteIndex = userFavoritesArray.findIndex((fav) => fav.id === id);
+      favoriteIndex = userFavoritesArray.findIndex((fav) => fav._id === id);
 
       if (favoriteIndex === -1) {
-        userFavoritesArray.push({ id, item });
+        userFavoritesArray.push( item );
         ToastAndroid.show("Se agregó el producto a tus favoritos", ToastAndroid.SHORT);
       } else {
         userFavoritesArray.splice(favoriteIndex, 1);
@@ -60,12 +69,9 @@ export const CustomCardProducts = ({ itemData }) => {
     }
 
     await AsyncStorage.setItem('userFavorites', JSON.stringify(userFavorites));
+    updateFavs(userFavorites);
     setFavorite(userIndex === -1 || favoriteIndex === -1 ? id : 0);
   };
-
-
-
-
 
   return (
     <Pressable

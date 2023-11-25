@@ -1,11 +1,11 @@
 import { types } from "../types/types";
 
 
-export const AuthReducer  = (state={}, action) => {
+export const AuthReducer = (state = {}, action) => {
 
     switch (action.type) {
         case types.auth.login:
-            return   {
+            return {
                 ...state,
                 user: action.payload.user,
                 isLogged: true,
@@ -18,7 +18,7 @@ export const AuthReducer  = (state={}, action) => {
                 ...state,
                 user: null,
                 isLogged: false,
-                isLoading:false,
+                isLoading: false,
                 errorMessage: action.payload.errorMessage
             }
 
@@ -27,10 +27,19 @@ export const AuthReducer  = (state={}, action) => {
                 ...state,
                 user: null,
                 isLogged: false,
-                isLoading:false,
-                errorMessage:  ''
+                isLoading: false,
+                errorMessage: ''
             }
-    
+
+        case types.auth.updateFavorites:
+            return {
+                ...state,
+                user: {
+                    ...state.user,
+                    favorites: action.payload.favorites,
+                },
+            };
+
         default:
             return state;
     }

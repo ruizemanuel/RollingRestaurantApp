@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { StyleSheet, TextInput, View, Text } from 'react-native';
 import { Feather } from '@expo/vector-icons'; 
 
@@ -6,21 +6,22 @@ import { Feather } from '@expo/vector-icons';
 
 export const CustomPassInput = ({ name,  formik }) => {
 
+    const[eye, setEye] = useState(true)
 
   return (
     <View  style={styles.container}>
        <Feather 
-            name='eye-off'  
+            name= { eye ? 'eye-off' : 'eye' }  
             size={21} 
             color={'#fff'}
             style={ styles.iconSearch }
-            onPress={() => console.log('password')}
+            onPress={() => setEye(!eye)}
         />
         <TextInput 
             style={ styles.input }
             placeholder='Password'
             placeholderTextColor={'#fff'}
-            secureTextEntry={true}
+            secureTextEntry={eye}
             name={name}
             onChangeText={(value) => formik.setFieldValue(name, value)}
         />

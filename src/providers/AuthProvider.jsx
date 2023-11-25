@@ -26,7 +26,7 @@ export const AuthProvider = ({ children }) => {
             });
             await AsyncStorage.setItem('x-access-token', user.data.token);
             await AsyncStorage.setItem('email', user.data.email);
-            const favorites = await AsyncStorage.getItem('userFavorites');
+            const favorites = await AsyncStorage.getItem('userFavorites') ?? [];
             const datos = {...user.data, favorites}
 
             dispatch({
@@ -72,6 +72,15 @@ export const AuthProvider = ({ children }) => {
         }
     }
 
+    const updateFavs = (favs) => {
+        dispatch({
+            type: types.auth.updateFavorites,
+            payload: {
+                favorites: favs
+            }
+        });
+    }
+
     const logout = async () => {
 
         dispatch({
@@ -84,6 +93,7 @@ export const AuthProvider = ({ children }) => {
             state,
             login,
             checkToken,
+            updateFavs,
             logout,
         }}
 
