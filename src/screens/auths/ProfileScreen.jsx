@@ -1,33 +1,48 @@
 import React, { useState } from 'react';
 import { useContext } from 'react';
-import { View, StyleSheet, Text, Image, TouchableOpacity, FlatList } from 'react-native';
+import { View, StyleSheet, Text, Image, TouchableOpacity, FlatList, RefreshControl } from 'react-native';
 import { AntDesign } from "react-native-vector-icons";
 import { AuthContext } from '../../contexts/AuthContext';
 import { CustomCardProducts } from '../../components/products/CustomCardProducts';
 import { ProductContext } from '../../contexts/ProductContext';
+import { PedidoContext } from '../../contexts/PedidoContext';
 import { globalStyles } from '../../themes/globalThemes';
 import { useEffect } from 'react';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import { CustomItemSearch } from '../../components/products/CustomItemSearch';
 
-export const ProfileScreen = () => {
+export const ProfileScreen = ({navigation}) => {
   const { logout, state } = useContext(AuthContext);
-  const productData = useContext(ProductContext).state;
+  const { getPedidos } = useContext(PedidoContext);
+  const pedidosData = useContext(PedidoContext).state;
+  const [refreshing, setRefreshing] = useState(false);
   const profileImageUrl = 'https://i.pravatar.cc/150?img=57';
+
+  const onRefresh = () => {
+    setRefreshing(true);
+    getPedidos().then(() => {
+      setRefreshing(false)
+    })
+  };
 
   const checkFavoriteStatus = () => {
     const favoritos = typeof state.user.favorites === 'string' ? JSON.parse(state.user.favorites) : state.user.favorites;
     const { favorites } = favoritos.find((item) => item.email === state.user.email);
-    console.log(favorites);
     return favorites;
   };
 
   const [favs, setFavs] = useState(state.user.favorites?.length !== 0 ? checkFavoriteStatus() : []);
 
   useEffect(() => {
-   if(state.user.favorites?.length !== 0){
-    setFavs(checkFavoriteStatus());
-   } 
-  },[state.user.favorites])
+    if (pedidosData.pedidos?.length !== 0) {
+      getPedidos();
+    }
+  }, [])
+
+  useEffect(() => {
+    if (state.user.favorites?.length !== 0) {
+      setFavs(checkFavoriteStatus());
+    }
+  }, [state.user.favorites])
 
   const handleLogout = () => {
     logout();
@@ -55,10 +70,16 @@ export const ProfileScreen = () => {
       <View style={{ flex: 2.5 }}>
         <Text style={{ fontSize: 18, color: '#000', fontWeight: 'bold', margin: 5 }}>Mis pedidos</Text>
         <FlatList
-          data={productData.products}
-          renderItem={({ item }) => <CustomCardProducts itemData={item} />}
+          data={pedidosData.pedidos?.filter((pedido) => pedido.email === state.user.email)}
+          renderItem={({ item }) => <CustomItemSearch item={item} />}
           keyExtractor={item => item._id}
-          horizontal={true} />
+          refreshControl={
+            <RefreshControl
+              refreshing={refreshing}
+              onRefresh={onRefresh}
+            />
+          }
+        />
       </View>
     </View>
   );

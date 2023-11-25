@@ -19,5 +19,11 @@ export const types = {
         msgCart: 'MSGCART',
         updateCart: 'UPDATECART',
         error:  'ERROR'
-    }
+    },
+
+    pedidos: {
+        getPedidos:  'PEDIDOS',
+        getPedido:   'PEDIDO BY ID',
+        error:        'ERROR PEDIDO'
+    },
 }

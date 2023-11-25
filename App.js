@@ -5,6 +5,7 @@ import { StatusBar } from 'react-native';
 import { AuthProvider } from './src/providers/AuthProvider';
 import { ProductProvider } from './src/providers/ProductProvider';
 import { CartProvider } from './src/providers/CartProvider';
+import { PedidoProvider } from './src/providers/PedidoProvider';
 
 
 export default function App() {
@@ -15,7 +16,9 @@ export default function App() {
         <CartProvider>
           <NavigationContainer>
             <ProductProvider>
-              <DrawerNavigator />
+              <PedidoProvider>
+                <DrawerNavigator />
+              </PedidoProvider>
             </ProductProvider>
           </NavigationContainer>
         </CartProvider>

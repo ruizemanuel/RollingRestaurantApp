@@ -38,7 +38,7 @@ export const CheckoutScreen = ({ navigation }) => {
     }
 
     const postCart = () => {
-        const cart = { pedido: state.cart, email: userData.user.email, estado: "-", total }
+        const cart = { pedido: state.cart, email: userData.user.email, estado: "Pendiente", total }
         sendCart(cart)
         removeAllCart();
         navigate('HomeScreen');

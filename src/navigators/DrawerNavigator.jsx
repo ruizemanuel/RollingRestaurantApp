@@ -17,10 +17,10 @@ export const DrawerNavigator = () => {
   const message = useContext(CartContext).state;
 
   useEffect(() => {
-    if (state.isLogged && message.msg){
+    if (state.isLogged && message.msg) {
       ToastAndroid.show(message.msg, ToastAndroid.SHORT);
     }
-  },[message.msg])
+  }, [message.msg])
 
   // useEffect( () => {
   //   checkToken();
@@ -49,13 +49,11 @@ export const DrawerNavigator = () => {
         {/* <Drawer.Screen name='Mis Pedidos' component={ProfileScreen} /> */}
       </Drawer.Navigator>
     )
-  } else{
-            return (
-
-            <Drawer.Navigator>
-                <Drawer.Screen name='Home' options={{ title: 'HOME', headerShown:false}} component={TabsNavigator} />
-                <Drawer.Screen name='Mis Pedidos' component={ProfileScreen} />
-            </Drawer.Navigator>
-      )
+  } else {
+    return (
+      <Drawer.Navigator>
+        <Drawer.Screen name='Home' options={{ title: 'HOME', headerShown: false }} component={TabsNavigator} />
+      </Drawer.Navigator>
+    )
   }
 }
