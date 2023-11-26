@@ -30,7 +30,7 @@ export const ProfileScreen = ({navigation}) => {
     return favorites;
   };
 
-  const [favs, setFavs] = useState(state.user.favorites?.length !== 0 ? checkFavoriteStatus() : []);
+  const [favs, setFavs] = useState(state.user && state.user.favorites?.length !== 0 ? checkFavoriteStatus() : []);
 
   useEffect(() => {
     if (pedidosData.pedidos?.length !== 0) {
@@ -39,7 +39,7 @@ export const ProfileScreen = ({navigation}) => {
   }, [])
 
   useEffect(() => {
-    if (state.user.favorites?.length !== 0) {
+    if (state.user && state.user.favorites?.length !== 0) {
       setFavs(checkFavoriteStatus());
     }
   }, [state.user.favorites])

@@ -8,7 +8,7 @@ import { types } from "../types/types"
 const initialState = {
     user: null,
     isLogged: false,
-    isLoading: true,
+    isLoading: false,
     errorMessage: ''
 }
 

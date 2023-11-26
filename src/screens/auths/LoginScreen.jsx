@@ -3,7 +3,6 @@ import { ActivityIndicator, Image, StyleSheet, Text, TextInput, TouchableOpacity
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import { globalStyles } from '../../themes/globalThemes';
-import { CustomModal } from '../../components/CustomModal';
 import { CustomPassInput } from '../../components/CustomPassInput';
 import { AuthContext } from '../../contexts/AuthContext';
 
@@ -35,14 +34,6 @@ export const LoginScreen = () => {
 
         }
     })
-
-
-    // const isLogin = () => {
-    //     login(
-    //         'nicolas@gmail.com',
-    //         'Nicolas10'
-    //     )
-    // }
 
     return (
         <>

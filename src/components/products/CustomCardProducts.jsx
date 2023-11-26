@@ -13,7 +13,7 @@ export const CustomCardProducts = ({ itemData }) => {
   const { state, updateFavs } = useContext(AuthContext);
 
   const checkFavoriteStatus = () => {
-    if(state.user.favorites?.length !== 0){
+    if(state.user && state.user.favorites?.length !== 0){
       const favoritos = typeof state.user.favorites === 'string' ? JSON.parse(state.user.favorites) : state.user.favorites;
       const {favorites} = favoritos?.find((item) => item.email === state.user.email);
       if (favorites) {
@@ -25,11 +25,10 @@ export const CustomCardProducts = ({ itemData }) => {
       return 0;
     } 
   };
-
   const [favorite, setFavorite] = useState(checkFavoriteStatus());
 
   useEffect(() => {
-    if(state.user.favorites?.length !== 0){
+    if(state.user && state.user.favorites?.length !== 0){
       setFavorite(checkFavoriteStatus());
     } 
    },[state.user.favorites])

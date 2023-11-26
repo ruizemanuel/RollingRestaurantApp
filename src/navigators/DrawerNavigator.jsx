@@ -1,13 +1,13 @@
 import { createDrawerNavigator } from '@react-navigation/drawer';
-import React, { useContext, useEffect, useState } from 'react';
-import { HomeScreen } from '../screens/HomeScreen';
-import { ProfileScreen } from '../screens/auths/ProfileScreen';
+import React, { useContext, useEffect } from 'react';
 import { TabsNavigator } from './TabsNavigator';
-import { LoginScreen } from '../screens/auths/LoginScreen';
 import { AuthContext } from '../contexts/AuthContext';
-import { CustomLoading } from '../components/CustomLoading';
 import { CartContext } from '../contexts/CartContext';
 import { ToastAndroid } from 'react-native';
+import { ProductsScreen } from '../screens/products/ProductsScreen';
+import { PedidoDetailScreen } from '../screens/pedidos/PedidoDetailScreen';
+import { SearchProductScreen } from '../screens/products/SearchProductScreen';
+import { LoginScreen } from '../screens/auths/LoginScreen';
 
 const Drawer = createDrawerNavigator();
 
@@ -36,7 +36,11 @@ export const DrawerNavigator = () => {
     return (
       <Drawer.Navigator>
         <Drawer.Screen name='Home' options={{ title: 'HOME', headerShown: false }} component={TabsNavigator} />
+        <Drawer.Screen name="SearchScreen" options={{ title: 'SEARCH', headerShown: false }} component={SearchProductScreen} />
+        <Drawer.Screen name="ProductsScreen" options={{ title: 'PRODUCTS', headerShown: false }} component={ProductsScreen} />
+        <Drawer.Screen name="PedidoDetailScreen" options={{ title: 'PEDIDO', headerShown: false }} component={PedidoDetailScreen} />
       </Drawer.Navigator>
     )
   }
+
 }

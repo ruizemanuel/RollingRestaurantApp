@@ -1,18 +1,20 @@
 import React, { useContext, useState } from "react";
-import { Image, ToastAndroid, Text, TouchableOpacity, View } from "react-native";
+import { Image, ToastAndroid, Text, TouchableOpacity, View, StyleSheet } from "react-native";
 import { globalStyles } from "../../themes/globalThemes";
-import { MaterialIcons } from "react-native-vector-icons";
+import { Ionicons } from 'react-native-vector-icons';
 import { Pressable } from "react-native";
 import { CustomQuantity } from "../../components/CustomQuantity";
 import { useQuantity } from "../../hooks/useQuantity";
 import { CartContext } from "../../contexts/CartContext";
+import { useNavigation } from "@react-navigation/native";
 
 export const ProductsScreen = ({ route }) => {
 
   const { itemData } = route.params;
   const [talle, setTalle] = useState(0);
-  const  { quantity, sumQuantity, restQuantity} = useQuantity();
+  const { quantity, sumQuantity, restQuantity } = useQuantity();
   const { addCart, state } = useContext(CartContext);
+  const navigation = useNavigation();
 
 
   const obtenerTalle = (dataTalle) => {
@@ -23,25 +25,36 @@ export const ProductsScreen = ({ route }) => {
   };
 
   const addToCart = () => {
-      const data = {
-        product: itemData,
-        qty: quantity
-      }
-      if(!quantity){
-        ToastAndroid.show('La cantidad no puede ser 0', ToastAndroid.SHORT);
-        return;
-      }
-      const existElement = state.cart.find((item) => item.id == itemData._id);
-      if(!existElement){
-        addCart(data);
-      }else{
-        ToastAndroid.show('Ya agregaste este item al carrito', ToastAndroid.SHORT);
-      }
+    const data = {
+      product: itemData,
+      qty: quantity
+    }
+    if (!quantity) {
+      ToastAndroid.show('La cantidad no puede ser 0', ToastAndroid.SHORT);
+      return;
+    }
+    const existElement = state.cart.find((item) => item.id == itemData._id);
+    if (!existElement) {
+      addCart(data);
+    } else {
+      ToastAndroid.show('Ya agregaste este item al carrito', ToastAndroid.SHORT);
+    }
   }
 
 
   return (
-    <View style={globalStyles.container}>
+    <View style={styles.container}>
+      <View style={styles.head}>
+        <View>
+          <View style={styles.menuContainer}>
+            <TouchableOpacity
+              onPress={() => navigation.goBack()}
+            >
+              <Ionicons name='arrow-back' size={28} color='#ff6347' />
+            </TouchableOpacity>
+          </View>
+        </View>
+      </View>
       <View
         style={{
           flex: 5,
@@ -50,11 +63,10 @@ export const ProductsScreen = ({ route }) => {
         }}
       >
         <Image
-         source={{ uri: itemData.urlImg }}
+          source={{ uri: itemData.urlImg }}
           style={{
             width: "100%",
             height: "100%",
-            borderRadius: 10
           }}
         />
       </View>
@@ -71,7 +83,7 @@ export const ProductsScreen = ({ route }) => {
           {itemData.category}
         </Text>
         <Text style={{ fontSize: 19, color: "#000", fontWeight: "bold" }}>
-          {itemData.productName}{" "}
+          {itemData.productName}
         </Text>
         <Text style={{ fontSize: 22, color: "#ff6347", fontWeight: "bold" }}>
           ${itemData.price}
@@ -97,9 +109,9 @@ export const ProductsScreen = ({ route }) => {
         </View>
 
         <CustomQuantity
-        quantity={quantity}
-        sumQuantity={sumQuantity}
-        restQuantity={restQuantity}
+          quantity={quantity}
+          sumQuantity={sumQuantity}
+          restQuantity={restQuantity}
         />
       </View>
 
@@ -126,7 +138,7 @@ export const ProductsScreen = ({ route }) => {
               paddingHorizontal: 20,
               paddingVertical: 15,
               borderRadius: 5,
-              alignSelf:  'center'
+              alignSelf: 'center'
             }}
             onPress={addToCart}
           >
@@ -137,3 +149,30 @@ export const ProductsScreen = ({ route }) => {
     </View>
   );
 };
+
+const styles = StyleSheet.create({
+
+  container: {
+    flex: 1,
+    backgroundColor: '#f2f2f2',
+    paddingBottom: 80,
+  },
+
+  head: {
+    flex: 1,
+    position: 'absolute',
+    width: '100%',
+    top: 0,
+    alignItems: 'flex-start'
+  },
+
+  menuContainer: {
+    backgroundColor: '#fff',
+    marginHorizontal: 10,
+    borderRadius: 5,
+    padding: 5,
+    zIndex: 999,
+    alignSelf: 'center',
+    marginTop: 10
+  },
+})

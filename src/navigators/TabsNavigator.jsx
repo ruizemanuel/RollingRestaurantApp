@@ -2,12 +2,11 @@ import React, { useContext } from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import {AntDesign} from 'react-native-vector-icons';
-
 import { SearchProductScreen } from '../screens/products/SearchProductScreen';
 import { ProfileScreen } from '../screens/auths/ProfileScreen';
-import { StackNavigator } from './StackNavigator';
 import { CartContext } from '../contexts/CartContext';
 import { CheckoutScreen } from '../screens/carts/CheckoutScreen';
+import { HomeScreen } from '../screens/HomeScreen';
 
 
 
@@ -46,8 +45,8 @@ export const TabsNavigator = () => {
     >
 
         <Tab.Screen 
-            name='StackNavigator' 
-            component={StackNavigator}
+            name='HomeScreen' 
+            component={HomeScreen}
             options={{ 
                 title:'Productos',
                 tabBarIcon: ({focused}) => (

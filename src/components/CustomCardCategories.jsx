@@ -10,7 +10,7 @@ export const CustomCardCategories = ({itemData}) => {
 
     const onPressCategory = () => {
       if(filteredProducts.length !== 0){
-        navigate('SearchProductScreen', {
+        navigate('SearchScreen', {
           filteredProducts,
         })
       } else{
