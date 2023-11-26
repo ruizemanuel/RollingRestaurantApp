@@ -10,7 +10,16 @@ export const AuthReducer = (state = {}, action) => {
                 user: action.payload.user,
                 isLogged: true,
                 isLoading: false,
-                errorMessage: ''
+                msg: action.payload.user.message
+            }
+
+        case types.auth.register:
+            return {
+                ...state,
+                user: action.payload.user,
+                isLogged: false,
+                isLoading: false,
+                msg: action.payload.user.message
             }
 
         case types.auth.error:
@@ -19,7 +28,7 @@ export const AuthReducer = (state = {}, action) => {
                 user: null,
                 isLogged: false,
                 isLoading: false,
-                errorMessage: action.payload.errorMessage
+                msg: action.payload.errorMessage
             }
 
         case types.auth.logout:
@@ -28,7 +37,7 @@ export const AuthReducer = (state = {}, action) => {
                 user: null,
                 isLogged: false,
                 isLoading: false,
-                errorMessage: ''
+                msg: ''
             }
 
         case types.auth.updateFavorites:

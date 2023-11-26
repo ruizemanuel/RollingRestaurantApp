@@ -1,6 +1,7 @@
 export const types = {
     auth: {
         login:  'LOGIN',
+        register:  'REGISTER',
         logout: 'LOGOUT',
         error:  'ERROR',
         loading: 'LOADING',

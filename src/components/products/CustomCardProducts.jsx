@@ -14,16 +14,16 @@ export const CustomCardProducts = ({ itemData }) => {
 
   const checkFavoriteStatus = () => {
     if(state.user && state.user.favorites?.length !== 0){
-      const favoritos = typeof state.user.favorites === 'string' ? JSON.parse(state.user.favorites) : state.user.favorites;
-      const {favorites} = favoritos?.find((item) => item.email === state.user.email);
-      if (favorites) {
-        const isFavorite = favorites.some((fav) => fav._id === itemData._id);
+      const favoritos = state.user.favorites;
+      const existFavorite = favoritos?.find((item) => item.email === state.user.email);
+      if (existFavorite) {
+        const isFavorite = existFavorite.favorites.some((fav) => fav._id === itemData._id);
         return isFavorite ? itemData._id : 0;
       }
       return 0;
     } else{
       return 0;
-    } 
+    }
   };
   const [favorite, setFavorite] = useState(checkFavoriteStatus());
 

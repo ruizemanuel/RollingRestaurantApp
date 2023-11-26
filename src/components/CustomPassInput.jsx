@@ -4,7 +4,7 @@ import { Feather } from '@expo/vector-icons';
 
 
 
-export const CustomPassInput = ({ name,  formik }) => {
+export const CustomPassInput = ({ name,  formik, errors, value, placeholder }) => {
 
     const[eye, setEye] = useState(true)
 
@@ -19,19 +19,20 @@ export const CustomPassInput = ({ name,  formik }) => {
         />
         <TextInput 
             style={ styles.input }
-            placeholder='Password'
+            placeholder={placeholder}
             placeholderTextColor={'#fff'}
             secureTextEntry={eye}
+            value={value}
             name={name}
             onChangeText={(value) => formik.setFieldValue(name, value)}
         />
-        { formik.errors.password &&  (
+        { errors &&  (
             <Text style={{
                 color: '#fff',
                 textAlign: 'center',
-                fontSize: 17
+                fontSize: 16
             }}>
-                { formik.errors.password }
+                { errors }
             </Text>
         )}
     </View>
@@ -41,7 +42,6 @@ export const CustomPassInput = ({ name,  formik }) => {
 const styles = StyleSheet.create({
 
     container:  {
-        marginVertical: 20,
         justifyContent: 'center',
     },
 

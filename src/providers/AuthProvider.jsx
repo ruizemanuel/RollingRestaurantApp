@@ -9,7 +9,7 @@ const initialState = {
     user: null,
     isLogged: false,
     isLoading: false,
-    errorMessage: ''
+    msg: ''
 }
 
 
@@ -30,13 +30,16 @@ export const AuthProvider = ({ children }) => {
             });
             await AsyncStorage.setItem('x-access-token', user.data.token);
             await AsyncStorage.setItem('email', user.data.email);
-            const favorites = await AsyncStorage.getItem('userFavorites') ?? [];
-            const datos = {...user.data, favorites}
+            let favorites = (await AsyncStorage.getItem('userFavorites')) ?? [];
+            if(favorites.length !== 0){
+                favorites = JSON.parse(favorites)
+            }
+            const userData = {...user.data, favorites}
 
             dispatch({
                 type: types.auth.login,
                 payload: {
-                    user: datos
+                    user: userData
                 }
             });
 
@@ -44,7 +47,40 @@ export const AuthProvider = ({ children }) => {
             dispatch({
                 type: types.auth.error,
                 payload: {
-                    errorMessage: error.response.data.msg
+                    errorMessage: error.response.data.message
+                }
+            })
+        }
+    }
+
+    const register = async (name, email, password, passwordrep) => {
+        try {
+
+            dispatch({
+                type: types.auth.loading,
+            });
+
+            const user = await restaurantApiUrl.post('/auth/register', {
+                name,
+                email,
+                password,
+                passwordrep,
+                roles: ['user'],
+                activo: true
+            });
+
+            dispatch({
+                type: types.auth.register,
+                payload: {
+                    user: user.data
+                }
+            });
+
+        } catch (error) {
+            dispatch({
+                type: types.auth.error,
+                payload: {
+                    errorMessage: error.response.data.message
                 }
             })
         }
@@ -96,6 +132,7 @@ export const AuthProvider = ({ children }) => {
         <AuthContext.Provider value={{
             state,
             login,
+            register,
             checkToken,
             updateFavs,
             logout,

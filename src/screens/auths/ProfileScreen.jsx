@@ -10,7 +10,7 @@ import { globalStyles } from '../../themes/globalThemes';
 import { useEffect } from 'react';
 import { CustomItemSearch } from '../../components/products/CustomItemSearch';
 
-export const ProfileScreen = ({navigation}) => {
+export const ProfileScreen = ({ navigation }) => {
   const { logout, state } = useContext(AuthContext);
   const { getPedidos } = useContext(PedidoContext);
   const pedidosData = useContext(PedidoContext).state;
@@ -26,8 +26,12 @@ export const ProfileScreen = ({navigation}) => {
 
   const checkFavoriteStatus = () => {
     const favoritos = typeof state.user.favorites === 'string' ? JSON.parse(state.user.favorites) : state.user.favorites;
-    const { favorites } = favoritos.find((item) => item.email === state.user.email);
-    return favorites;
+    const existFavorite = favoritos?.find((item) => item.email === state.user.email);
+    if (existFavorite) {
+      return existFavorite.favorites;
+    }
+    return []
+
   };
 
   const [favs, setFavs] = useState(state.user && state.user.favorites?.length !== 0 ? checkFavoriteStatus() : []);
@@ -57,8 +61,16 @@ export const ProfileScreen = ({navigation}) => {
           <AntDesign name='logout' size={24} color={'#ff6347'} />
         </TouchableOpacity>
       </View>
+      {pedidosData.pedidos?.filter((pedido) => pedido.email === state.user.email).length === 0 && favs.length == 0 &&
+        <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+          <Text style={{ fontSize: 18, color: '#888' }}>Aquí se guardan tus pedidos y tus favoritos</Text>
+        </View>
+      }
       {
-        favs.length !== 0 && <View style={{ flex: 2.5 }}>
+        favs.length !== 0 &&
+        <View style={{ 
+          flex: pedidosData.pedidos?.filter((pedido) => pedido.email === state.user.email).length !== 0 ? 2 : 0.45, 
+          top: 80 }}>
           <Text style={{ fontSize: 18, color: '#000', fontWeight: 'bold', margin: 5 }}>Mis Favoritos</Text>
           <FlatList
             data={favs}
@@ -67,20 +79,23 @@ export const ProfileScreen = ({navigation}) => {
             horizontal={true} />
         </View>
       }
-      <View style={{ flex: 2.5 }}>
-        <Text style={{ fontSize: 18, color: '#000', fontWeight: 'bold', margin: 5 }}>Mis pedidos</Text>
-        <FlatList
-          data={pedidosData.pedidos?.filter((pedido) => pedido.email === state.user.email)}
-          renderItem={({ item }) => <CustomItemSearch item={item} />}
-          keyExtractor={item => item._id}
-          refreshControl={
-            <RefreshControl
-              refreshing={refreshing}
-              onRefresh={onRefresh}
-            />
-          }
-        />
-      </View>
+      {
+        pedidosData.pedidos?.filter((pedido) => pedido.email === state.user.email).length !== 0 &&
+        <View style={{ flex: 2.5, top: 100 }}>
+          <Text style={{ fontSize: 18, color: '#000', fontWeight: 'bold', margin: 5 }}>Mis pedidos</Text>
+          <FlatList
+            data={pedidosData.pedidos?.filter((pedido) => pedido.email === state.user.email)}
+            renderItem={({ item }) => <CustomItemSearch item={item} />}
+            keyExtractor={item => item._id}
+            refreshControl={
+              <RefreshControl
+                refreshing={refreshing}
+                onRefresh={onRefresh}
+              />
+            }
+          />
+        </View>
+      }
     </View>
   );
 };
@@ -89,26 +104,24 @@ export const ProfileScreen = ({navigation}) => {
 const styles = StyleSheet.create({
 
   container: {
-    flex: 0.5,
+    position: 'absolute',
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    top: -15,
-    marginTop: 20,
-    paddingHorizontal: 15,
-    backgroundColor: '#f2f2f2',
+    width: '100%',
+    paddingHorizontal: 10,
+    paddingTop: 10,
+    top: 0,
   },
   profileImage: {
     width: 60,
     height: 60,
     borderRadius: 60,
-    marginBottom: 20,
   },
   userName: {
     fontSize: 24,
     fontWeight: 'bold',
     color: '#000',
-    marginBottom: 10,
   },
   userEmail: {
     fontSize: 16,

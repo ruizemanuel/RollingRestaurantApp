@@ -8,6 +8,7 @@ import { ProductsScreen } from '../screens/products/ProductsScreen';
 import { PedidoDetailScreen } from '../screens/pedidos/PedidoDetailScreen';
 import { SearchProductScreen } from '../screens/products/SearchProductScreen';
 import { LoginScreen } from '../screens/auths/LoginScreen';
+import { RegisterScreen } from '../screens/auths/RegisterScreen';
 
 const Drawer = createDrawerNavigator();
 
@@ -22,6 +23,12 @@ export const DrawerNavigator = () => {
     }
   }, [message.msg])
 
+  useEffect(() => {
+    if (state.msg) {
+      ToastAndroid.show(state.msg, ToastAndroid.SHORT);
+    }
+  }, [state.msg])
+
   // useEffect( () => {
   //   checkToken();
   // },[])
@@ -30,6 +37,7 @@ export const DrawerNavigator = () => {
     return (
       <Drawer.Navigator>
         <Drawer.Screen name='Login' options={{ title: 'LOGIN', headerShown: false }} component={LoginScreen} />
+        <Drawer.Screen name="RegistroScreen" options={{ title: 'REGISTRO', headerShown: false }} component={RegisterScreen} />
       </Drawer.Navigator>
     )
   } else {

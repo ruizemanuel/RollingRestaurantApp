@@ -1,5 +1,5 @@
 import React, { useContext, useState } from 'react'
-import { ActivityIndicator, Image, Pressable, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
+import { ActivityIndicator, Image, Pressable, StyleSheet, Text, TextInput, ToastAndroid, TouchableOpacity, View } from 'react-native';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import { globalStyles } from '../../themes/globalThemes';
@@ -9,31 +9,46 @@ import { useNavigation } from '@react-navigation/native';
 
 
 
-export const LoginScreen = () => {
+export const RegisterScreen = () => {
 
-    const { login, state } = useContext(AuthContext);
+    const { register, state } = useContext(AuthContext);
     const { navigate } = useNavigation();
 
     const formik = useFormik({
         initialValues: {
             email: '',
-            password: ''
+            password: '',
+            repPassword: '',
         },
         validateOnChange: false,
         validationSchema: Yup.object({
+            name: Yup.string()
+                .required('El campo nombre  es  requerido')
+                .min(4, 'el nombre requiere minimo 4 caracteres'),
             email: Yup.string()
-                .email('El formato del email  es incorrecto')
+                .email('El formato del email es incorrecto')
                 .required('El campo email  es  requerido'),
             password: Yup.string()
                 .required('El campo contraseña es requerido')
+                .min(8, 'contraseña requiere minimo 8 caracteres'),
+            repPassword: Yup.string()
+                .required('El campo repetir contraseña es requerido')
                 .min(8, 'contraseña requiere minimo 8 caracteres')
         }),
-        onSubmit: (values) => {
-            login(
-                formik.values.email,
-                formik.values.password,
-            )
-
+        onSubmit: (values, { resetForm }) => {
+            if (formik.values.password === formik.values.repPassword) {
+                register(
+                    formik.values.name,
+                    formik.values.email,
+                    formik.values.password,
+                    formik.values.repPassword,
+                ).then(() => {
+                    resetForm();
+                    navigate('Login');
+                })
+            } else {
+                ToastAndroid.show("Las contraseñas no coinciden", ToastAndroid.SHORT);
+            }
         }
     })
 
@@ -49,9 +64,29 @@ export const LoginScreen = () => {
                 <View>
                     <TextInput
                         style={globalStyles.defaultInputText}
+                        placeholder='Nombre'
+                        placeholderTextColor={'#fff'}
+                        inputMode='text'
+                        value={formik.values.name}
+                        maxLength={16}
+                        name='name'
+                        onChangeText={(value) => formik.setFieldValue('name', value)}
+                    />
+                    {formik.errors.name && (
+                        <Text style={{
+                            color: '#fff',
+                            textAlign: 'center',
+                            fontSize: 16
+                        }}>
+                            {formik.errors.name}
+                        </Text>
+                    )}
+                    <TextInput
+                        style={globalStyles.defaultInputText}
                         placeholder='Email'
                         placeholderTextColor={'#fff'}
                         inputMode='email'
+                        value={formik.values.email}
                         name='email'
                         onChangeText={(value) => formik.setFieldValue('email', value)}
                     />
@@ -65,7 +100,8 @@ export const LoginScreen = () => {
                         </Text>
                     )}
 
-                    <CustomPassInput name={'password'} formik={formik} errors={formik.errors.password} value={formik.values.password} placeholder={'Contraseña'}/>
+                    <CustomPassInput name={'password'} formik={formik} errors={formik.errors.password} value={formik.values.password} placeholder={'Contraseña'} />
+                    <CustomPassInput name={'repPassword'} formik={formik} errors={formik.errors.repPassword} value={formik.values.repPassword} placeholder={'Repetir Contraseña'} />
                 </View>
                 {
                     !state.isLoading ?
@@ -74,18 +110,17 @@ export const LoginScreen = () => {
                                 style={styles.defaultBtn}
                                 onPress={formik.handleSubmit}
                             >
-                                <Text style={globalStyles.defaulTextBtn}> INGRESAR </Text>
+                                <Text style={globalStyles.defaulTextBtn}> REGISTRARSE </Text>
                             </TouchableOpacity>
                             <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
-                                <Text style={{ fontSize: 14, color: '#fff' }}>¿No tienes una cuenta?{" "}</Text>
-                                <Pressable onPress={() => navigate('RegistroScreen')}>
-                                    <Text style={{ fontSize: 16, color: '#fff', fontWeight: 'bold' }}>Registrate ahora</Text>
+                                <Text style={{ fontSize: 14, color: '#fff' }}>¿Ya tienes una cuenta?{" "}</Text>
+                                <Pressable onPress={() => navigate('Login')}>
+                                    <Text style={{ fontSize: 16, color: '#fff', fontWeight: 'bold' }}>Inicia sesión</Text>
                                 </Pressable>
                             </View>
                         </View> :
                         <ActivityIndicator size="large" color='#fff' />
                 }
-
 
             </View>
 

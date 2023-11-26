@@ -36,6 +36,7 @@ export const ProductsScreen = ({ route }) => {
     const existElement = state.cart.find((item) => item.id == itemData._id);
     if (!existElement) {
       addCart(data);
+      ToastAndroid.show('Pedido agregado al carrito', ToastAndroid.SHORT);
     } else {
       ToastAndroid.show('Ya agregaste este item al carrito', ToastAndroid.SHORT);
     }
