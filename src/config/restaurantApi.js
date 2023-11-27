@@ -3,7 +3,7 @@ import axios from "axios";
 import Constants from "expo-constants";
 
 
-const urlApi = Constants.expoConfig.extra.urlApi;
+const urlApi = 'https://rolling-advanced-react-backend.vercel.app/apiRestaurant';
 
 export const restaurantApiUrl = axios.create({
     baseURL: urlApi,

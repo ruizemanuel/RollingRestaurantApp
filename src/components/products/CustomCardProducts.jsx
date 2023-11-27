@@ -109,8 +109,7 @@ export const CustomCardProducts = ({ itemData }) => {
           paddingHorizontal: 3,
           marginTop: 3,
         }}>
-          <Text style={{ fontSize: 14, color: '#7e7e80', }}>{itemData.category}</Text>
-          <Text style={{ fontSize: 16, color: '#000' }}>{itemData.productName}</Text>
+          <Text style={{ fontSize: 16, color: '#000' }} numberOfLines={1}>{itemData.productName}</Text>
           <Text style={{ fontSize: 18, color: '#ff6347' }}>${itemData.price}.00</Text>
         </View>
 
@@ -126,7 +125,7 @@ export const CustomCardProducts = ({ itemData }) => {
             borderTopLeftRadius: 10,
             borderBottomRightRadius: 20,
             position: 'absolute',
-            bottom: -68,
+            bottom: -88,
             right: -11
           }}>
             <Text style={{ fontSize: 20 }}>
