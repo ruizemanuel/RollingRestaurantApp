@@ -21,6 +21,7 @@ export const CheckoutScreen = ({ navigation }) => {
     const removeItem = (index) => {
         state.cart.splice(index, 1);
         removeCart(state.cart);
+        totalCart();
     }
     const [quantities, setQuantities] = useState(state.cart.map((item) => ({ id: item.id, quantity: item.qty })));
     const [total, setTotal] = useState(0)
