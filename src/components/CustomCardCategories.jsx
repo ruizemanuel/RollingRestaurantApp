@@ -23,8 +23,6 @@ export const CustomCardCategories = ({itemData}) => {
         style={{
           marginHorizontal:5,
           backgroundColor: '#fff',
-          // borderColor: 'rgba(255,255,255,0.1)',
-          // borderWidth:2,
           borderRadius: 15
         }}
         onPress={onPressCategory}

@@ -10,7 +10,6 @@ import { ProductContext } from '../../contexts/ProductContext';
 
 export const SearchProductScreen = ({route}) => {
 
-  const [productList, setProductList] = useState();
   const { state } = useContext(ProductContext);
   const filteredProducts = route.params ? route.params.filteredProducts : undefined;
   const searchData = filteredProducts ? filteredProducts : state.products
@@ -20,24 +19,6 @@ export const SearchProductScreen = ({route}) => {
   const filteredData = searchData?.filter((item) =>
     item.productName.toLowerCase().includes(searchText.toLowerCase())
   );
-
-  // useEffect( () => {
-  //   const arrData = searchData.filter((data) => data._id <=2);
-  //   setProductList(arrData);
-  // }, []);
-
-
-  // const loadMore = () => {
-  //   const newArrData = [];
-  //   for(let i = 0;  i <  2;  i++){
-  //     newArrData[i] = searchData[productList.length + i];
-  //   }
-
-  //   if(productList.length <= 6){
-  //     setProductList([...productList, ...newArrData]);
-  //   }
-  // }
-
 
   const renderActivity = () => {
     return (

@@ -31,7 +31,6 @@ export const CustomModalBottom = ({status, onPress}) => {
                     backgroundColor: '#000',
                     alignItems: 'center',
                     justifyContent: 'space-evenly',
-                    // marginHorizontal: 10,
                     padding: 20,
                     height: '55%',
                     borderTopLeftRadius: 40,

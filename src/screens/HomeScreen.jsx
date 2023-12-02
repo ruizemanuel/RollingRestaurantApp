@@ -21,7 +21,6 @@ export const HomeScreen = ({ navigation }) => {
 
   const onRefresh = () => {
     setRefreshing(true);
-    // USAR EL LLAMADO A UN SERVICIO API O AL CUALQUIER COSA REFRESCAR
     setTimeout(() => {
       getProducts();
       setRefreshing(false);

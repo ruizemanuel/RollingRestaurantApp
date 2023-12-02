@@ -16,30 +16,16 @@ const styles = StyleSheet.create({
 
     container: {
         flex: 1,
-        // height: 500,
         backgroundColor: 'green',
         flexDirection: 'column',
-        justifyContent: 'space-around',
-
-        // flexDirection: 'column-reverse',
-        // flexDirection: 'row',
-        // flexDirection: 'row-reverse',
-
-        // alignItems: 'flex-start'
-
-        
+        justifyContent: 'space-around',      
     },
     
     caja1: {
         flex: 1,
         fontSize: 25,
         borderWidth: 2,
-        borderColor: 'white',
-
-        //es para sobrescibir las props del padre
-        // alignSelf: 'flex-start',
-
-        
+        borderColor: 'white',     
     },
     caja2: {
         flex: 1,

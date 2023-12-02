@@ -7,7 +7,6 @@ export const BoxModelObjectScreen = () => {
   return (
     <View>
         <View  style={styles.container}>
-            {/* Asi se combina los distintos tipos de estilos*/}
             <Text style={[styles.title, stylesGral.title, { margin: 30}]}>Hola Mundo</Text>
         </View>
         <View  style={ styles.container}>

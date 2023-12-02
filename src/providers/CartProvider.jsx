@@ -34,11 +34,6 @@ export const CartProvider = ({ children }) => {
             }
         ]
 
-        // await AsyncStorage.setItem('cart', JSON.stringify({
-        //     userId: 4,
-        //     products: addProduct 
-        // }));
-
         dispatch({
             type: types.cart.addCart,
             payload: {

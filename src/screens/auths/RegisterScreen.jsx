@@ -123,12 +123,6 @@ export const RegisterScreen = () => {
                 }
 
             </View>
-
-            {/* <CustomModal 
-            status={modal}
-            title='Error de Acceso'
-            msg={state.errorMessage}
-        /> */}
         </>
     )
 }

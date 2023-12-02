@@ -29,10 +29,6 @@ export const DrawerNavigator = () => {
     }
   }, [state.msg])
 
-  // useEffect( () => {
-  //   checkToken();
-  // },[])
-
   if (!state.isLogged) {
     return (
       <Drawer.Navigator>

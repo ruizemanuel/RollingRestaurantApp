@@ -3,7 +3,6 @@ import { Dimensions, StyleSheet, Text, View, useWindowDimensions } from 'react-n
 
 export const PositionModelScreen = () => {
 
-    // const { width, height } = Dimensions.get('window');
     const { width, height } = useWindowDimensions();
 
   return (
@@ -25,8 +24,6 @@ const styles = StyleSheet.create({
     container:  {
         height: 600,
         backgroundColor: 'green',
-        // justifyContent: 'center',
-        // alignItems: 'center',
     },
 
     cajaRoja: {
@@ -38,9 +35,6 @@ const styles = StyleSheet.create({
         position: 'absolute',
         top: 0,
         right: 0
-        // top - bottom - left - rigth
-        // top: -50,
-        // left:  50,
         
 
     },

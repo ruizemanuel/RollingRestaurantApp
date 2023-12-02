@@ -11,7 +11,6 @@ export const CustomQuantity = ( { quantity, sumQuantity, restQuantity }) => {
 
     <View style={{
         flexDirection: "row",
-        // borderWidth: 1.2,
         borderColor: "#fff",
         borderRadius: 5
         }}
@@ -34,7 +33,6 @@ export const CustomQuantity = ( { quantity, sumQuantity, restQuantity }) => {
                 color: "#000",
                 fontSize: 19,
                 fontWeight: "bold",
-                // marginHorizontal: 12,
                 }}
             >
                 { quantity }

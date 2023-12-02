@@ -88,12 +88,6 @@ export const LoginScreen = () => {
 
 
             </View>
-
-            {/* <CustomModal 
-            status={modal}
-            title='Error de Acceso'
-            msg={state.errorMessage}
-        /> */}
         </>
     )
 }
