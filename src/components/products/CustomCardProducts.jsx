@@ -13,7 +13,7 @@ export const CustomCardProducts = ({ itemData }) => {
   const { state, updateFavs } = useContext(AuthContext);
 
   const checkFavoriteStatus = () => {
-    if(state.user && state.user.favorites?.length !== 0){
+    if (state.user && state.user.favorites?.length !== 0) {
       const favoritos = state.user.favorites;
       const existFavorite = favoritos?.find((item) => item.email === state.user.email);
       if (existFavorite) {
@@ -21,17 +21,17 @@ export const CustomCardProducts = ({ itemData }) => {
         return isFavorite ? itemData._id : 0;
       }
       return 0;
-    } else{
+    } else {
       return 0;
     }
   };
   const [favorite, setFavorite] = useState(checkFavoriteStatus());
 
   useEffect(() => {
-    if(state.user && state.user.favorites?.length !== 0){
+    if (state.user && state.user.favorites?.length !== 0) {
       setFavorite(checkFavoriteStatus());
-    } 
-   },[state.user.favorites])
+    }
+  }, [state.user.favorites])
 
   const onPressFavorite = async (id, item) => {
     const email = await AsyncStorage.getItem('email');
@@ -49,7 +49,7 @@ export const CustomCardProducts = ({ itemData }) => {
     if (userIndex === -1) {
       userFavorites.push({
         email,
-        favorites: [ item ],
+        favorites: [item],
       });
       ToastAndroid.show("Se agregó el producto a tus favoritos", ToastAndroid.SHORT);
     } else {
@@ -57,7 +57,7 @@ export const CustomCardProducts = ({ itemData }) => {
       favoriteIndex = userFavoritesArray.findIndex((fav) => fav._id === id);
 
       if (favoriteIndex === -1) {
-        userFavoritesArray.push( item );
+        userFavoritesArray.push(item);
         ToastAndroid.show("Se agregó el producto a tus favoritos", ToastAndroid.SHORT);
       } else {
         userFavoritesArray.splice(favoriteIndex, 1);
@@ -113,18 +113,20 @@ export const CustomCardProducts = ({ itemData }) => {
 
         <Pressable
           onPress={() => onPressFavorite(itemData._id, itemData)}
+          style={{
+            position: 'absolute',
+            top: 0,
+            right: 0
+          }}
         >
           <View style={{
             backgroundColor: '#ff6347',
-            paddingHorizontal: 15,
-            paddingVertical: 10,
+            paddingHorizontal: 14,
+            paddingVertical: 7,
             justifyContent: 'center',
             alignItems: 'center',
-            borderTopLeftRadius: 10,
-            borderBottomRightRadius: 20,
-            position: 'absolute',
-            bottom: -88,
-            right: -11
+            borderTopRightRadius: 10,
+            borderBottomLeftRadius: 20,
           }}>
             <Text style={{ fontSize: 20 }}>
               <AntDesign name={favorite == itemData._id ? 'heart' : 'hearto'} size={18} color='#fff' />

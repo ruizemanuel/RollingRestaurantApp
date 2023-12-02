@@ -83,7 +83,7 @@ export const HomeScreen = ({ navigation }) => {
           />
         </View>
 
-      <View style={{ flex: 3, }}>
+      <View style={{ flex: 2.5, }}>
         <Text style={{ fontSize: 18, color: '#000', fontWeight: 'bold', margin: 5 }}>Destacados</Text>
         <FlatList
           data={state.products}

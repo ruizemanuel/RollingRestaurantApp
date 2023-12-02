@@ -38,7 +38,9 @@ export const DrawerNavigator = () => {
     )
   } else {
     return (
-      <Drawer.Navigator>
+      <Drawer.Navigator screenOptions={{
+        swipeEnabled: false
+      }}>
         <Drawer.Screen name='Home' options={{ title: 'HOME', headerShown: false }} component={TabsNavigator} />
         <Drawer.Screen name="SearchScreen" options={{ title: 'SEARCH', headerShown: false }} component={SearchProductScreen} />
         <Drawer.Screen name="ProductsScreen" options={{ title: 'PRODUCTS', headerShown: false }} component={ProductsScreen} />
