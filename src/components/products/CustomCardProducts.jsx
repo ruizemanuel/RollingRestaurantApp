@@ -116,17 +116,16 @@ export const CustomCardProducts = ({ itemData }) => {
           style={{
             position: 'absolute',
             top: 0,
-            right: 0
+            right: 0,
           }}
         >
           <View style={{
             backgroundColor: '#ff6347',
-            paddingHorizontal: 14,
+            paddingHorizontal: 7,
             paddingVertical: 7,
             justifyContent: 'center',
             alignItems: 'center',
-            borderTopRightRadius: 10,
-            borderBottomLeftRadius: 20,
+            borderRadius: 5
           }}>
             <Text style={{ fontSize: 20 }}>
               <AntDesign name={favorite == itemData._id ? 'heart' : 'hearto'} size={18} color='#fff' />

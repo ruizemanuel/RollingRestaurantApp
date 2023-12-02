@@ -9,11 +9,13 @@ import { PedidoContext } from '../../contexts/PedidoContext';
 import { globalStyles } from '../../themes/globalThemes';
 import { useEffect } from 'react';
 import { CustomItemSearch } from '../../components/products/CustomItemSearch';
+import { CartContext } from '../../contexts/CartContext';
 
 export const ProfileScreen = ({ navigation }) => {
   const { logout, state } = useContext(AuthContext);
   const { getPedidos } = useContext(PedidoContext);
   const pedidosData = useContext(PedidoContext).state;
+  const message = useContext(CartContext).state;
   const [refreshing, setRefreshing] = useState(false);
   const profileImageUrl = 'https://i.pravatar.cc/150?img=57';
 
@@ -23,6 +25,12 @@ export const ProfileScreen = ({ navigation }) => {
       setRefreshing(false)
     })
   };
+
+  useEffect(()=> {
+    if(message.msg === "Pedido creado con exito"){
+      getPedidos()
+    }
+  }, [message.msg])
 
   const checkFavoriteStatus = () => {
     const favoritos = typeof state.user.favorites === 'string' ? JSON.parse(state.user.favorites) : state.user.favorites;
