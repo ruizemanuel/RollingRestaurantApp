@@ -19,6 +19,7 @@ export const useQuantity = () => {
   return {
     quantity,
     sumQuantity,
-    restQuantity
+    restQuantity,
+    setQuantity
   }
 }

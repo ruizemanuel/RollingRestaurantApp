@@ -40,18 +40,21 @@ export const CheckoutScreen = ({ navigation }) => {
 
     const postCart = () => {
         const cart = { pedido: state.cart, email: userData.user.email, estado: "Pendiente", total }
-        sendCart(cart)
-        removeAllCart();
-        navigate('HomeScreen');
+        sendCart(cart).then(() => {
+            removeAllCart();
+            navigate('HomeScreen');
+        })
     }
 
     const handleUpdateQuantity = (itemId, newQuantity) => {
-        setQuantities((prevQuantities) =>
-            prevQuantities.map((item) =>
-                item.id === itemId ? { ...item, quantity: newQuantity } : item
-            )
-        );
-        updateCartItem(itemId, newQuantity);
+        if (newQuantity > 0) {
+            setQuantities((prevQuantities) =>
+                prevQuantities.map((item) =>
+                    item.id === itemId ? { ...item, quantity: newQuantity } : item
+                )
+            );
+            updateCartItem(itemId, newQuantity);
+        }
     };
 
     const cartRender = (item, index) => {
@@ -102,7 +105,7 @@ export const CheckoutScreen = ({ navigation }) => {
                             handleUpdateQuantity(item.id, quantity + 1)
                         }
                         restQuantity={() =>
-                            handleUpdateQuantity(item.id, Math.max(quantity - 1, 0))
+                            handleUpdateQuantity(item.id, quantity - 1)
                         }
                     />
                 </View>

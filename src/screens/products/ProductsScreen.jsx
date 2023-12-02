@@ -12,7 +12,7 @@ export const ProductsScreen = ({ route }) => {
 
   const { itemData } = route.params;
   const [talle, setTalle] = useState(0);
-  const { quantity, sumQuantity, restQuantity } = useQuantity();
+  const { quantity, setQuantity, sumQuantity, restQuantity } = useQuantity();
   const { addCart, state } = useContext(CartContext);
   const navigation = useNavigation();
 
@@ -36,6 +36,7 @@ export const ProductsScreen = ({ route }) => {
     const existElement = state.cart.find((item) => item.id == itemData._id);
     if (!existElement) {
       addCart(data);
+      setQuantity(0);
       ToastAndroid.show('Pedido agregado al carrito', ToastAndroid.SHORT);
     } else {
       ToastAndroid.show('Ya agregaste este item al carrito', ToastAndroid.SHORT);
