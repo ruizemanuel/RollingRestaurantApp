@@ -4,7 +4,7 @@ Aplicación realizada con React Native de temática de un Restaurante donde podr
 
 En este proyecto se utilizan herramientas como React Navigation para manejar las rutas internas que nos permiten navegar entre las distintas pantallas, MongoDB para almacenar los productos, usuarios y pedidos y Axios para hacer peticiones a nuestro backend.
 
-### 🌟 [QR para escanear con la app de expo](https://qr.expo.dev/eas-update?updateId=a2a0398f-f37d-4279-b56c-36893ebfb779&appScheme=exp&host=u.expo.dev)
+### 🌟 [QR para escanear con la app de expo](https://qr.expo.dev/eas-update?updateId=1c1da2dd-ec9f-4988-beb6-e425b9b04f6b&appScheme=exp&host=u.expo.dev)
 
 ---
 
