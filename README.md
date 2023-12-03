@@ -18,6 +18,9 @@ npm i
 ### Para ejecutar nuestra app de react native
 npx expo start
 
+### Descargar el frontend desde:
+https://github.com/ruizemanuel/RollingAdvancedReact-Frontend
+
 ### Descargar el backend desde:
 https://github.com/ruizemanuel/RollingAdvancedReact-Backend
 
